@@ -32,4 +32,56 @@ public class Livro {
     @Column(nullable = false, length = 20)
     private StatusLIvro status = StatusLIvro.DISPONIVEL;
 
+    public Livro(Long id, String titulo, String autor, String isbn, Integer anoPublicacao, StatusLIvro status) {
+        this.id = id;
+        this.titulo = titulo;
+        this.autor = autor;
+        this.isbn = isbn;
+        this.anoPublicacao = anoPublicacao;
+        this.status = status;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getTitulo() {
+        return titulo;
+    }
+
+    public String getAutor() {
+        return autor;
+    }
+
+    public String getIsbn() {
+        return isbn;
+    }
+
+    public Integer getAnoPublicacao() {
+        return anoPublicacao;
+    }
+
+    public StatusLIvro getStatus() {
+        return status;
+    }
+
+    public void setTitulo(String titulo) {
+        this.titulo = titulo;
+    }
+
+    public void setAutor(String autor) {
+        this.autor = autor;
+    }
+
+    public void setIsbn(String isbn) {
+        this.isbn = isbn;
+    }
+
+    public void setAnoPublicacao(Integer anoPublicacao) {
+        this.anoPublicacao = anoPublicacao;
+    }
+
+    public void setStatus(StatusLIvro status) {
+        this.status = status;
+    }
 }
