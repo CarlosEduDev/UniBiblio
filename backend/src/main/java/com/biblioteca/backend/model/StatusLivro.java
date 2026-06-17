@@ -1,6 +1,6 @@
 package com.biblioteca.backend.model;
 
-public enum StatusLIvro {
+public enum StatusLivro {
     DISPONIVEL,
     EMPRESTADO
 }

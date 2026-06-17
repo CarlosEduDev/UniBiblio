@@ -2,15 +2,9 @@ package com.biblioteca.backend.model;
 
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "livrotb")
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
 public class Livro {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,9 +24,9 @@ public class Livro {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 20)
-    private StatusLIvro status = StatusLIvro.DISPONIVEL;
+    private StatusLivro status = StatusLivro.DISPONIVEL;
 
-    public Livro(Long id, String titulo, String autor, String isbn, Integer anoPublicacao, StatusLIvro status) {
+    public Livro(Long id, String titulo, String autor, String isbn, Integer anoPublicacao, StatusLivro status) {
         this.id = id;
         this.titulo = titulo;
         this.autor = autor;
@@ -61,7 +55,7 @@ public class Livro {
         return anoPublicacao;
     }
 
-    public StatusLIvro getStatus() {
+    public StatusLivro getStatus() {
         return status;
     }
 
@@ -81,7 +75,7 @@ public class Livro {
         this.anoPublicacao = anoPublicacao;
     }
 
-    public void setStatus(StatusLIvro status) {
+    public void setStatus(StatusLivro status) {
         this.status = status;
     }
 }
