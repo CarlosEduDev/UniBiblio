@@ -25,8 +25,12 @@ public class Emprestimo {
     @Column(name = "data_devolucao_prevista", nullable = false)
     private LocalDateTime dataDevolucaoPrevista;
 
-    @Column(name = "data_devolucao_real", nullable = false)
+    @Column(name = "data_devolucao_real", nullable = true)
     private LocalDateTime dataDevolucaoReal;
+
+    public Emprestimo(){
+
+    }
 
     public Emprestimo(Long id, Usuario usuario, Livro livro, LocalDateTime dataEmprestimo, LocalDateTime dataDevolucaoPrevista, LocalDateTime dataDevolucaoReal) {
         this.id = id;

@@ -46,7 +46,7 @@ public class EmprestimoController {
     }
 
     @PutMapping("/{id}/devolucao")
-    public ResponseEntity<String> registrarDevolucao(@PathVariable Long id){
+    public ResponseEntity<?> registrarDevolucao(@PathVariable Long id){
         return emprestimoRepository.findById(id).map(emprestimo -> {
             emprestimo.setDataDevolucaoReal(LocalDateTime.now());
 

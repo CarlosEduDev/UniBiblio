@@ -3,5 +3,5 @@ export interface Usuario {
     nome: string;
     email: string;
     matricula: string;
-    perfil: 'ADMIN' | 'ALUNO' | 'PROFESSOR';
+    perfilUsuario: string;
 }

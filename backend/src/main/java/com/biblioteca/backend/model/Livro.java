@@ -26,6 +26,10 @@ public class Livro {
     @Column(nullable = false, length = 20)
     private StatusLivro status = StatusLivro.DISPONIVEL;
 
+    public Livro(){
+
+    }
+
     public Livro(Long id, String titulo, String autor, String isbn, Integer anoPublicacao, StatusLivro status) {
         this.id = id;
         this.titulo = titulo;

@@ -19,8 +19,11 @@ public class Usuario {
     private String matricula;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false, length = 20)
+    @Column(name = "perfil", nullable = false, length = 20)
     private PerfilUsuario perfilUsuario;
+
+    public Usuario() {
+    }
 
     public Usuario(Long id, String nome, String email, String matricula, PerfilUsuario perfilUsuario) {
         this.id = id;

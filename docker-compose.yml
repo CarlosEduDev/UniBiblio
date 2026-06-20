@@ -1,12 +1,31 @@
 version: '3.8'
 
 services:
-  db:
+  biblioteca-db:
     image: postgres:15-alpine
     container_name: biblioteca-db
-    environment:
-      POSTGRES_USER: admin
-      POSTGRES_PASSWORD: password123
-      POSTGRES_DB: biblioteca
     ports:
       - "5432:5432"
+    environment:
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=admin
+      - POSTGRES_DB=biblioteca
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  # 🚀 ADICIONE ESTE BLOCO DAQUI EM DIANTE:
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: biblioteca-pgadmin
+    ports:
+      - "8081:80"
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=carlos@email.com
+      - PGADMIN_DEFAULT_PASSWORD=admin
+    depends_on:
+      - biblioteca-db
+    logging:
+      driver: "none" # Silencia logs excessivos
+
+volumes:
+  postgres_data:

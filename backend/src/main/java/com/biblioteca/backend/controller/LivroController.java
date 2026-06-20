@@ -31,11 +31,11 @@ public class LivroController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @PutMapping
+    @PutMapping("/{id}")
     public ResponseEntity<Livro> atualizarLivro(@PathVariable Long id, @RequestBody Livro livroDado){
         return livroRepository.findById(id).map(livro -> {
-            livro.setTitulo(livro.getTitulo());
-            livro.setAnoPublicacao(livro.getAnoPublicacao());
+            livro.setTitulo(livroDado.getTitulo());
+            livro.setAnoPublicacao(livroDado.getAnoPublicacao());
             livro.setAutor(livroDado.getAutor());
             livro.setIsbn(livroDado.getIsbn());
             livro.setStatus(livroDado.getStatus());
