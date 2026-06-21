@@ -59,12 +59,10 @@ export function Dashboard() {
 
   return (
     <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '20px' }}>
-      {/* Cabeçalho alinhado com o padrão do sistema */}
       <div style={{ marginBottom: '30px' }}>
         <h2>📊 Painel de Controle</h2>
       </div>
 
-      {/* Grid de Cartões Informativos (Cards) */}
       <div style={{ display: 'flex', gap: '20px', flexWrap: 'wrap', marginBottom: '30px' }}>
         
         <div style={{ flex: '1 1 220px', background: '#1e1e1e', padding: '24px', borderRadius: '8px', border: '1px solid #333', textAlign: 'center' }}>
@@ -89,7 +87,6 @@ export function Dashboard() {
 
       </div>
 
-      {/* Bloco de Atividades Operacionais */}
       <div style={{ background: '#1e1e1e', padding: '24px', borderRadius: '8px', border: '1px solid #333' }}>
         <h3 style={{ fontSize: '16px', color: '#007bff', marginBottom: '10px' }}>Atividades Operacionais</h3>
         <p style={{ color: '#ccc', fontSize: '14px', lineHeight: '1.6' }}>

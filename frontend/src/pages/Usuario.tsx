@@ -8,6 +8,7 @@ export function Usuarios() {
   const [email, setEmail] = useState('');
   const [matricula, setMatricula] = useState('');
   const [perfil, setPerfil] = useState<'ADMIN' | 'ALUNO' | 'PROFESSOR'>('ALUNO');
+  const [editandoId, setEditandoId] = useState<number | null>(null);
 
   async function carregarUsuarios() {
     try {
@@ -20,30 +21,59 @@ export function Usuarios() {
 
   useEffect(() => { carregarUsuarios(); }, []);
 
-  async function CadastrarUsuario(evento: React.SyntheticEvent) {
+  // 📝 Preenche o formulário com os dados do usuário escolhido para edição
+  function ativarEdicao(usuario: Usuario) {
+    if (usuario.id) {
+      setEditandoId(usuario.id);
+      setNome(usuario.nome);
+      setEmail(usuario.email);
+      setMatricula(usuario.matricula);
+      setPerfil(usuario.perfilUsuario as 'ADMIN' | 'ALUNO' | 'PROFESSOR');
+    }
+  }
+
+  function cancelarEdicao() {
+    setEditandoId(null);
+    setNome('');
+    setEmail('');
+    setMatricula('');
+    setPerfil('ALUNO');
+  }
+
+  async function submeterFormulario(evento: React.SyntheticEvent) {
     evento.preventDefault();
-    const novoUsuario: Usuario = { nome, email, matricula, perfilUsuario: perfil };
+    const dadosUsuario: Usuario = { nome, email, matricula, perfilUsuario: perfil };
 
     try {
-      await api.post('/usuarios', novoUsuario);
-      setNome(''); setEmail(''); setMatricula(''); setPerfil('ALUNO');
+      if (editandoId) {
+        // Rota do backend pra atualizar: PUT /usuarios/{id}
+        await api.put(`/usuarios/${editandoId}`, dadosUsuario);
+        alert("Usuário atualizado com sucesso!");
+      } else {
+        // Rota do backend pra cadastrar: POST /usuarios
+        await api.post('/usuarios', dadosUsuario);
+        alert("Usuário cadastrado com sucesso!");
+      }
+      cancelarEdicao();
       carregarUsuarios();
-      alert("Usuário cadastrado com sucesso!");
     } catch (erro) {
-      alert("Erro ao cadastrar usuário.");
+      console.error("Erro na operação:", erro);
+      alert("Erro ao salvar dados do usuário.");
     }
   }
 
   return (
     <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '20px' }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '30px' }}>
+      <div style={{ marginBottom: '30px' }}>
         <h2>👥 Gerenciamento de Usuários</h2>
       </div>
-
+      
       <div style={{ display: 'flex', gap: '40px', flexWrap: 'wrap' }}>
         
-        <form onSubmit={CadastrarUsuario} style={{ flex: '1 1 350px', display: 'flex', flexDirection: 'column', gap: '16px', background: '#1e1e1e', padding: '24px', borderRadius: '8px', border: '1px solid #333', height: 'fit-content' }}>
-          <h3 style={{ fontSize: '16px', color: '#007bff', marginBottom: '10px' }}>Novo Usuário</h3>
+        <form onSubmit={submeterFormulario} style={{ flex: '1 1 350px', display: 'flex', flexDirection: 'column', gap: '16px', background: '#1e1e1e', padding: '24px', borderRadius: '8px', border: '1px solid #333', height: 'fit-content' }}>
+          <h3 style={{ fontSize: '16px', color: editandoId ? '#ffc107' : '#007bff', marginBottom: '10px' }}>
+            {editandoId ? 'Editar Usuário' : 'Novo Usuário'}
+          </h3>
           
           <input type="text" placeholder="Nome Completo" value={nome} onChange={e => setNome(e.target.value)} required />
           <input type="email" placeholder="E-mail" value={email} onChange={e => setEmail(e.target.value)} required />
@@ -58,10 +88,17 @@ export function Usuarios() {
             </select>
           </div>
 
-          <button type="submit" style={{ background: '#007bff', color: '#fff', marginTop: '10px' }}>
-            Cadastrar Usuário
+          <button type="submit" style={{ background: editandoId ? '#ffc107' : '#007bff', color: editandoId ? '#000' : '#fff', marginTop: '10px' }}>
+            {editandoId ? 'Salvar Alterações' : 'Cadastrar Usuário'}
           </button>
+
+          {editandoId && (
+            <button type="button" onClick={cancelarEdicao} style={{ background: '#333', color: '#fff' }}>
+              Cancelar
+            </button>
+          )}
         </form>
+
 
         <div style={{ flex: '2 1 600px' }}>
           <h3>Usuários na Base</h3>
@@ -73,6 +110,7 @@ export function Usuarios() {
                 <th>E-mail</th>
                 <th>Matrícula</th>
                 <th>Perfil</th>
+                <th style={{ textAlign: 'center' }}>Ações</th>
               </tr>
             </thead>
             <tbody>
@@ -90,6 +128,17 @@ export function Usuarios() {
                     }}>
                       {usuario.perfilUsuario}
                     </span>
+                  </td>
+                  <td>
+                    <div style={{ display: 'flex', gap: '8px', justifyContent: 'center' }}>
+                      <button 
+                        onClick={() => ativarEdicao(usuario)} 
+                        style={{ background: '#28a745', color: '#fff', padding: '6px 12px', fontSize: '12px' }}
+                      >
+                        Editar
+                      </button>
+                      
+                    </div>
                   </td>
                 </tr>
               ))}

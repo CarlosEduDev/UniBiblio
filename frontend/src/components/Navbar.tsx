@@ -3,7 +3,6 @@ import { Link, useLocation } from 'react-router-dom';
 export function Navbar() {
   const location = useLocation();
 
-  // Função simples para destacar o botão da página atual
   const obterEstiloLink = (path: string) => {
     const estiloBase = {
       color: '#fff',
@@ -15,7 +14,7 @@ export function Navbar() {
     };
 
     return location.pathname === path
-      ? { ...estiloBase, background: '#007bff' } // Azul para a página ativa
+      ? { ...estiloBase, background: '#007bff' }
       : { ...estiloBase, background: 'transparent' };
   };
 
@@ -30,7 +29,7 @@ export function Navbar() {
       fontFamily: 'sans-serif'
     }}>
       <div style={{ fontSize: '20px', fontWeight: 'bold', color: '#007bff' }}>
-        📚 Sistema Biblioteca
+        <h3>📚 Sistema bibliotecário</h3>
       </div>
       
       <div style={{ display: 'flex', gap: '15px' }}>
