@@ -22,11 +22,9 @@ export function Usuarios() {
     carregarUsuarios();
   }, []);
 
-  // Alterado para usar o FormEvent nativo do escopo do React estável
   async function lidarComCadastro(evento: React.SyntheticEvent) {
     evento.preventDefault();
     
-    // Explicitando chave e valor para garantir que o TypeScript não perca o escopo
     const novoUsuario: Usuario = { 
       nome: nome, 
       email: email, 
@@ -59,8 +57,8 @@ export function Usuarios() {
         
         <label>Tipo de Perfil:</label>
         <select value={perfil} onChange={e => setPerfil(e.target.value as 'ADMIN' | 'ALUNO' | 'PROFESSOR')} style={{ padding: '8px', color: '#000' }}>
-          <option value="ALUNO">Aluno</option>        {/* Antes o 'value' podia estar errado */}
-          <option value="PROFESSOR">Professor</option>  {/* Antes o 'value' podia estar errado */}
+          <option value="ALUNO">Aluno</option>        
+          <option value="PROFESSOR">Professor</option>
           <option value="ADMIN">Administrador</option>
         </select>
         <button type="submit" style={{ cursor: 'pointer', padding: '8px', background: '#007bff', color: 'white', border: 'none', borderRadius: '4px' }}>

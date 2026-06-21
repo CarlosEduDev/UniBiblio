@@ -38,7 +38,6 @@ export function Emprestimos() {
       ]);
       setEmprestimos(resEmprestimos.data);
       setUsuarios(resUsuarios.data);
-      // Filtra para exibir no select apenas os livros disponíveis
       setLivros(resLivros.data.filter((l: Livro) => l.status === 'DISPONIVEL'));
     } catch (erro) {
       console.error("Erro ao carregar dados de empréstimos:", erro);
@@ -52,7 +51,6 @@ export function Emprestimos() {
   async function lidarComEmprestimo(evento: React.SyntheticEvent) {
     evento.preventDefault();
 
-    // Monta o payload exatamente como a entidade Emprestimo do Java espera
     const novoEmprestimo = {
       usuario: { id: Number(usuarioId) },
       livro: { id: Number(livroId) }
