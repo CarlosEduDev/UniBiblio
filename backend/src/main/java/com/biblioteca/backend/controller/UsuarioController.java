@@ -4,7 +4,6 @@ import com.biblioteca.backend.model.Usuario;
 import com.biblioteca.backend.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -47,7 +46,7 @@ public class UsuarioController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Object> deletar(@PathVariable Long id){
+    public ResponseEntity<Object> deletarUsuario(@PathVariable Long id){
         return usuarioRepository.findById(id).map(usuario -> {
            usuarioRepository.deleteById(id);
            return ResponseEntity.noContent().build();

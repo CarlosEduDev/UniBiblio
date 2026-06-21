@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { api } from '../services/api';
 
 interface Indicadores {
@@ -50,51 +50,50 @@ export function Dashboard() {
   }, []);
 
   if (carregando) {
-    return <div style={{ color: '#fff', padding: '20px', fontFamily: 'sans-serif' }}>Carregando dados do painel...</div>;
+    return (
+      <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '20px', color: '#aaa' }}>
+        Carregando dados do painel...
+      </div>
+    );
   }
 
-  const estiloCard = {
-    flex: '1 1 200px',
-    padding: '20px',
-    borderRadius: '8px',
-    background: '#1e1e1e',
-    border: '1px solid #333',
-    boxShadow: '0 4px 6px rgba(0,0,0,0.1)',
-    textAlign: 'center' as const
-  };
-
   return (
-    <div style={{ fontFamily: 'sans-serif', color: '#fff', padding: '10px' }}>
-      <h2 style={{ marginBottom: '5px' }}>Painel de Controle</h2>
-      <p style={{ color: '#aaa', marginBottom: '25px' }}>Visão geral do sistema de gerenciamento da biblioteca</p>
-
-      <div style={{ display: 'flex', gap: '20px', flexWrap: 'wrap', marginBottom: '40px' }}>
-        <div style={estiloCard}>
-          <h3 style={{ margin: '0 0 10px 0', color: '#aaa', fontSize: '14px', textTransform: 'uppercase' }}>Usuários Cadastrados</h3>
-          <p style={{ margin: 0, fontSize: '32px', fontWeight: 'bold', color: '#007bff' }}>{indicadores.totalUsuarios}</p>
-        </div>
-
-        <div style={estiloCard}>
-          <h3 style={{ margin: '0 0 10px 0', color: '#aaa', fontSize: '14px', textTransform: 'uppercase' }}>Total de Livros</h3>
-          <p style={{ margin: 0, fontSize: '32px', fontWeight: 'bold', color: '#28a745' }}>{indicadores.totalLivros}</p>
-        </div>
-
-        <div style={estiloCard}>
-          <h3 style={{ margin: '0 0 10px 0', color: '#aaa', fontSize: '14px', textTransform: 'uppercase' }}>Livros Emprestados</h3>
-          <p style={{ margin: 0, fontSize: '32px', fontWeight: 'bold', color: '#dc3545' }}>{indicadores.livrosEmprestados}</p>
-        </div>
-
-        <div style={estiloCard}>
-          <h3 style={{ margin: '0 0 10px 0', color: '#aaa', fontSize: '14px', textTransform: 'uppercase' }}>Livros Disponíveis</h3>
-          <p style={{ margin: 0, fontSize: '32px', fontWeight: 'bold', color: '#ffc107' }}>{indicadores.livrosDisponiveis}</p>
-        </div>
+    <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '20px' }}>
+      {/* Cabeçalho alinhado com o padrão do sistema */}
+      <div style={{ marginBottom: '30px' }}>
+        <h2>📊 Painel de Controle</h2>
       </div>
 
-      {/* Seção de Atalhos Rápidos */}
-      <div style={{ background: '#1e1e1e', padding: '25px', borderRadius: '8px', border: '1px solid #333' }}>
-        <h3 style={{ marginTop: 0, color: '#007bff' }}>Atividades Operacionais</h3>
-        <p style={{ color: '#ccc', fontSize: '14px' }}>
-          Até o momento, este painel já gerenciou um histórico total de <strong>{indicadores.totalEmprestimosRealizados} transações de empréstimos</strong>.
+      {/* Grid de Cartões Informativos (Cards) */}
+      <div style={{ display: 'flex', gap: '20px', flexWrap: 'wrap', marginBottom: '30px' }}>
+        
+        <div style={{ flex: '1 1 220px', background: '#1e1e1e', padding: '24px', borderRadius: '8px', border: '1px solid #333', textAlign: 'center' }}>
+          <h3 style={{ fontSize: '12px', color: '#aaa', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: '12px' }}>Usuários Cadastrados</h3>
+          <p style={{ margin: 0, fontSize: '36px', fontWeight: 'bold', color: '#007bff' }}>{indicadores.totalUsuarios}</p>
+        </div>
+
+        <div style={{ flex: '1 1 220px', background: '#1e1e1e', padding: '24px', borderRadius: '8px', border: '1px solid #333', textAlign: 'center' }}>
+          <h3 style={{ fontSize: '12px', color: '#aaa', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: '12px' }}>Total de Livros</h3>
+          <p style={{ margin: 0, fontSize: '36px', fontWeight: 'bold', color: '#28a745' }}>{indicadores.totalLivros}</p>
+        </div>
+
+        <div style={{ flex: '1 1 220px', background: '#1e1e1e', padding: '24px', borderRadius: '8px', border: '1px solid #333', textAlign: 'center' }}>
+          <h3 style={{ fontSize: '12px', color: '#aaa', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: '12px' }}>Livros Emprestados</h3>
+          <p style={{ margin: 0, fontSize: '36px', fontWeight: 'bold', color: '#dc3545' }}>{indicadores.livrosEmprestados}</p>
+        </div>
+
+        <div style={{ flex: '1 1 220px', background: '#1e1e1e', padding: '24px', borderRadius: '8px', border: '1px solid #333', textAlign: 'center' }}>
+          <h3 style={{ fontSize: '12px', color: '#aaa', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: '12px' }}>Livros Disponíveis</h3>
+          <p style={{ margin: 0, fontSize: '36px', fontWeight: 'bold', color: '#ffc107' }}>{indicadores.livrosDisponiveis}</p>
+        </div>
+
+      </div>
+
+      {/* Bloco de Atividades Operacionais */}
+      <div style={{ background: '#1e1e1e', padding: '24px', borderRadius: '8px', border: '1px solid #333' }}>
+        <h3 style={{ fontSize: '16px', color: '#007bff', marginBottom: '10px' }}>Atividades Operacionais</h3>
+        <p style={{ color: '#ccc', fontSize: '14px', lineHeight: '1.6' }}>
+          Até o momento, este painel administrativo já gerenciou e processou com sucesso um histórico total de <strong style={{ color: '#fff' }}>{indicadores.totalEmprestimosRealizados} transações de empréstimos</strong> no banco de dados.
         </p>
       </div>
     </div>

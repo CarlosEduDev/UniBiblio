@@ -14,81 +14,90 @@ export function Usuarios() {
       const resposta = await api.get('/usuarios');
       setUsuarios(resposta.data);
     } catch (erro) {
-      console.error("Erro ao buscar usuários do Java:", erro);
+      console.error("Erro ao buscar usuários:", erro);
     }
   }
 
-  useEffect(() => {
-    carregarUsuarios();
-  }, []);
+  useEffect(() => { carregarUsuarios(); }, []);
 
-  async function lidarComCadastro(evento: React.SyntheticEvent) {
+  async function CadastrarUsuario(evento: React.SyntheticEvent) {
     evento.preventDefault();
-    
-    const novoUsuario: Usuario = { 
-      nome: nome, 
-      email: email, 
-      matricula: matricula, 
-      perfilUsuario: perfil 
-    };
+    const novoUsuario: Usuario = { nome, email, matricula, perfilUsuario: perfil };
 
     try {
       await api.post('/usuarios', novoUsuario);
-      setNome('');
-      setEmail('');
-      setMatricula('');
-      setPerfil('ALUNO');
+      setNome(''); setEmail(''); setMatricula(''); setPerfil('ALUNO');
       carregarUsuarios();
       alert("Usuário cadastrado com sucesso!");
     } catch (erro) {
-      console.error("Erro ao cadastrar usuário:", erro);
-      alert("Erro ao cadastrar usuário no servidor.");
+      alert("Erro ao cadastrar usuário.");
     }
   }
 
   return (
-    <div style={{ padding: '20px', fontFamily: 'sans-serif', color: '#fff' }}>
-      <h2>Gerenciamento de Usuários (Biblioteca)</h2>
-      
-      <form onSubmit={lidarComCadastro} style={{ marginBottom: '30px', display: 'flex', flexDirection: 'column', gap: '10px', maxWidth: '400px' }}>
-        <input type="text" placeholder="Nome Completo" value={nome} onChange={e => setNome(e.target.value)} required style={{ padding: '8px', color: '#000' }} />
-        <input type="email" placeholder="E-mail" value={email} onChange={e => setEmail(e.target.value)} required style={{ padding: '8px', color: '#000' }} />
-        <input type="text" placeholder="Matrícula" value={matricula} onChange={e => setMatricula(e.target.value)} required style={{ padding: '8px', color: '#000' }} />
-        
-        <label>Tipo de Perfil:</label>
-        <select value={perfil} onChange={e => setPerfil(e.target.value as 'ADMIN' | 'ALUNO' | 'PROFESSOR')} style={{ padding: '8px', color: '#000' }}>
-          <option value="ALUNO">Aluno</option>        
-          <option value="PROFESSOR">Professor</option>
-          <option value="ADMIN">Administrador</option>
-        </select>
-        <button type="submit" style={{ cursor: 'pointer', padding: '8px', background: '#007bff', color: 'white', border: 'none', borderRadius: '4px' }}>
-          Cadastrar Usuário
-        </button>
-      </form>
+    <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '20px' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '30px' }}>
+        <h2>👥 Gerenciamento de Usuários</h2>
+      </div>
 
-      <h3>Usuários Cadastrados</h3>
-      <table border={1} cellPadding={8} style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', color: '#fff' }}>
-        <thead>
-          <tr style={{ background: '#333' }}>
-            <th>ID</th>
-            <th>Nome</th>
-            <th>E-mail</th>
-            <th>Matrícula</th>
-            <th>Perfil</th>
-          </tr>
-        </thead>
-        <tbody>
-          {usuarios.map(usuario => (
-            <tr key={usuario.id}>
-              <td>{usuario.id}</td>
-              <td>{usuario.nome}</td>
-              <td>{usuario.email}</td>
-              <td>{usuario.matricula}</td>
-              <td><strong>{usuario.perfilUsuario}</strong></td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <div style={{ display: 'flex', gap: '40px', flexWrap: 'wrap' }}>
+        
+        <form onSubmit={CadastrarUsuario} style={{ flex: '1 1 350px', display: 'flex', flexDirection: 'column', gap: '16px', background: '#1e1e1e', padding: '24px', borderRadius: '8px', border: '1px solid #333', height: 'fit-content' }}>
+          <h3 style={{ fontSize: '16px', color: '#007bff', marginBottom: '10px' }}>Novo Usuário</h3>
+          
+          <input type="text" placeholder="Nome Completo" value={nome} onChange={e => setNome(e.target.value)} required />
+          <input type="email" placeholder="E-mail" value={email} onChange={e => setEmail(e.target.value)} required />
+          <input type="text" placeholder="Matrícula" value={matricula} onChange={e => setMatricula(e.target.value)} required />
+          
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+            <label style={{ fontSize: '13px', color: '#aaa' }}>Tipo de Perfil</label>
+            <select value={perfil} onChange={e => setPerfil(e.target.value as 'ADMIN' | 'ALUNO' | 'PROFESSOR')}>
+              <option value="ALUNO">Aluno</option>
+              <option value="PROFESSOR">Professor</option>
+              <option value="ADMIN">Administrador</option>
+            </select>
+          </div>
+
+          <button type="submit" style={{ background: '#007bff', color: '#fff', marginTop: '10px' }}>
+            Cadastrar Usuário
+          </button>
+        </form>
+
+        <div style={{ flex: '2 1 600px' }}>
+          <h3>Usuários na Base</h3>
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Nome</th>
+                <th>E-mail</th>
+                <th>Matrícula</th>
+                <th>Perfil</th>
+              </tr>
+            </thead>
+            <tbody>
+              {usuarios.map(usuario => (
+                <tr key={usuario.id}>
+                  <td style={{ color: '#aaa', fontSize: '13px' }}>#{usuario.id}</td>
+                  <td style={{ fontWeight: 500 }}>{usuario.nome}</td>
+                  <td>{usuario.email}</td>
+                  <td style={{ fontFamily: 'monospace', color: '#aaa' }}>{usuario.matricula}</td>
+                  <td>
+                    <span style={{ 
+                      background: usuario.perfilUsuario === 'ADMIN' ? 'rgba(0,123,255,0.15)' : 'rgba(255,255,255,0.05)',
+                      color: usuario.perfilUsuario === 'ADMIN' ? '#007bff' : '#eee',
+                      padding: '4px 8px', borderRadius: '4px', fontSize: '12px', fontWeight: 'bold'
+                    }}>
+                      {usuario.perfilUsuario}
+                    </span>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+
+      </div>
     </div>
   );
 }
