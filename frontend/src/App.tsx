@@ -1,5 +1,4 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import './App.css'
 import { Emprestimos } from './pages/Emprestimos'
 import { Livros } from './pages/Livros'
 import { Usuarios } from './pages/Usuario'
