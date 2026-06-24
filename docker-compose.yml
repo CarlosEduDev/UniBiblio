@@ -7,14 +7,31 @@ services:
     ports:
       - "5432:5432"
     environment:
+      - POSTGRES_DB=biblioteca
       - POSTGRES_USER=admin
       - POSTGRES_PASSWORD=admin
-      - POSTGRES_DB=biblioteca
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
-  # 🚀 ADICIONE ESTE BLOCO DAQUI EM DIANTE:
-  pgadmin:
+  biblioteca-backend:
+    build: ./backend
+    container_name: biblioteca-backend
+    ports:
+      - "8080:8080"
+    depends_on:
+      - biblioteca-db
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://biblioteca-db:5432/biblioteca
+
+  biblioteca-frontend:
+    build: ./frontend
+    container_name: biblioteca-frontend
+    ports:
+      - "5173:5173"
+    depends_on:
+      - biblioteca-backend
+
+  biblioteca-pgadmin:
     image: dpage/pgadmin4
     container_name: biblioteca-pgadmin
     ports:
@@ -24,8 +41,6 @@ services:
       - PGADMIN_DEFAULT_PASSWORD=admin
     depends_on:
       - biblioteca-db
-    logging:
-      driver: "none" # Silencia logs excessivos
 
 volumes:
   postgres_data:
